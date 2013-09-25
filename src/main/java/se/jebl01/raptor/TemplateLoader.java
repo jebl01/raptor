@@ -24,7 +24,7 @@ public final class TemplateLoader
 
     public static <T> Template<T> load(final String template, final Class<T> clazz)
     {
-        return new Template<T>(template, processTemplate(loadXmlFile(clazz, template), getFragmentsProviders(clazz)));
+        return new Template<T>(template, processTemplate(loadTemplateFile(clazz, template), getFragmentsProviders(clazz)));
     }
 
     private static <T> List<TemplateFragment<T>> processTemplate(final String xml, final Map<String, TemplateFragment<T>> fragments)
@@ -91,10 +91,10 @@ public final class TemplateLoader
         return fragments;
     }
 
-    private static String loadXmlFile(final Class<?> fromPackage, final String name)
+    private static String loadTemplateFile(final Class<?> fromPackage, final String name)
     {
         final String path = fromPackage.getPackage().getName().replace('.', '/') + '/';
-        String filePath = path + name + ".html";
+        String filePath = path + name;
         final InputStream is = TemplateLoader.class.getClassLoader().getResourceAsStream(filePath);
         if(is == null)
         {
