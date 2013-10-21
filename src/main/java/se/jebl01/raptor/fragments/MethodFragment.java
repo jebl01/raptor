@@ -25,6 +25,6 @@ public final class MethodFragment<S> extends ReflectionTemplateFragment<S>
     @Override
     public String toString()
     {
-        return getClass().getSimpleName() + ":" + this.method.getName();
+        return getClass().getSimpleName() + ":" + this.fragmentName;
     }
 }

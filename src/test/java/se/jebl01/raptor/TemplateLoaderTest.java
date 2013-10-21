@@ -55,7 +55,6 @@ public class TemplateLoaderTest {
       }
       try
       {
-        
           return IOUtils.toString(is, "UTF-8");
       }
       catch(final IOException e)

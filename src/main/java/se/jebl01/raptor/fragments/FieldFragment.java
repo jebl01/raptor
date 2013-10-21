@@ -25,6 +25,6 @@ public final class FieldFragment<S> extends ReflectionTemplateFragment<S>
     @Override
     public String toString()
     {
-        return "%" + this.field.getName().toUpperCase() + "%";
+        return getClass().getSimpleName() + ":" + this.fragmentName;
     }
 }
