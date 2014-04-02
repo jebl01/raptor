@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD, ElementType.FIELD })
 public @interface TemplateFragmentProvider
 {
-    String fragmentName();
+    String value();
 }

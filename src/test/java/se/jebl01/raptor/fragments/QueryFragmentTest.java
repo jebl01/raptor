@@ -38,10 +38,10 @@ public class QueryFragmentTest
     
     public static final class FragmentTest
     {
-      @TemplateFragmentProvider(fragmentName="fieldFragmentName")
+      @TemplateFragmentProvider(value="fieldFragmentName")
       private final String field = "testfield";
       
-      @TemplateFragmentProvider(fragmentName="methodFragmentName")
+      @TemplateFragmentProvider(value="methodFragmentName")
       public String method(){
         return "testmethod";
       }

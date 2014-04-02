@@ -15,7 +15,7 @@ public class TemplateLoaderTest {
   @Test
   public void canLoadTemplateAndFormat() throws IOException{
     String expected = loadTemplateFile(getClass(), "expected.html");
-    HtmlPage htmlPage = new HtmlPage("The Header", "A paragraph");
+    HtmlPage htmlPage = new HtmlPage("HTML", "The Header", "A paragraph");
     
     Template<HtmlPage> template = TemplateLoader.load("template.html", HtmlPage.class);
     
@@ -25,19 +25,30 @@ public class TemplateLoaderTest {
     assertEquals(expected, sb.toString());
   }
   
-  public static class HtmlPage{
+  public static class Html {    
+    @TemplateFragmentProvider("DOCTYPE")
+    private final String docType;
     
-    @TemplateFragmentProvider(fragmentName="HEADING")
+    public Html(String docType) {
+      this.docType = docType;
+    }
+  }
+  
+  public static class HtmlPage extends Html {
+    
+    @TemplateFragmentProvider("HEADING")
     private final String header;
     
     private final String paragraph;
     
-    public HtmlPage(String header, String paragraph){
+    public HtmlPage(String docType, String header, String paragraph){
+      super(docType);
+      
       this.header = header;
       this.paragraph = paragraph;
     }
     
-    @TemplateFragmentProvider(fragmentName="PARAGRAPH")
+    @TemplateFragmentProvider("PARAGRAPH")
     public String getParagraph(){
       return this.paragraph;
     }

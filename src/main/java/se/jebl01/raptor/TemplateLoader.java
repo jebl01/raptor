@@ -61,34 +61,46 @@ public final class TemplateLoader
         return fragments;
     }
 
-    private static <T> Map<String, TemplateFragment<T>> findMethods(final Class<T> clazz)
-    {
-        final Map<String, TemplateFragment<T>> fragments = new HashMap<String, TemplateFragment<T>>();
+    private static <T> Map<String, TemplateFragment<T>> findMethods(final Class<?> clazz, Map<String, TemplateFragment<T>> fragments) {
+      if(clazz != null) {
         for(final Method method : clazz.getMethods())
         {
-            if(method.isAnnotationPresent(TemplateFragmentProvider.class))
-            {
-                final TemplateFragmentProvider fragmentAnnotation = method.getAnnotation(TemplateFragmentProvider.class);
-                String fragmentName = fragmentAnnotation.fragmentName();
-                fragments.put(fragmentName, new MethodFragment<T>(fragmentName, method));
-            }
+          if(method.isAnnotationPresent(TemplateFragmentProvider.class))
+          {
+            final TemplateFragmentProvider fragmentAnnotation = method.getAnnotation(TemplateFragmentProvider.class);
+            String fragmentName = fragmentAnnotation.value();
+            fragments.put(fragmentName, new MethodFragment<T>(fragmentName, method));
+          }
         }
-        return fragments;
+        return findMethods(clazz.getSuperclass(), fragments);
+      }
+      return fragments;
+    }
+    
+    private static <T> Map<String, TemplateFragment<T>> findMethods(final Class<T> clazz)
+    {
+        return findMethods(clazz, new HashMap<String, TemplateFragment<T>>());
     }
 
     private static <T> Map<String, TemplateFragment<T>> findFields(final Class<T> clazz)
     {
-        final Map<String, TemplateFragment<T>> fragments = new HashMap<String, TemplateFragment<T>>();
+      return findFields(clazz, new HashMap<String, TemplateFragment<T>>());
+    }
+
+    private static <T> Map<String, TemplateFragment<T>> findFields(final Class<?> clazz, Map<String, TemplateFragment<T>> fragments) {
+      if(clazz != null) {
         for(final Field field : clazz.getDeclaredFields())
         {
-            if(field.isAnnotationPresent(TemplateFragmentProvider.class))
-            {
-                final TemplateFragmentProvider fragmentAnnotation = field.getAnnotation(TemplateFragmentProvider.class);
-                String fragmentName = fragmentAnnotation.fragmentName();
-                fragments.put(fragmentName, new FieldFragment<T>(fragmentName, field));
-            }
+          if(field.isAnnotationPresent(TemplateFragmentProvider.class))
+          {
+            final TemplateFragmentProvider fragmentAnnotation = field.getAnnotation(TemplateFragmentProvider.class);
+            String fragmentName = fragmentAnnotation.value();
+            fragments.put(fragmentName, new FieldFragment<T>(fragmentName, field));
+          }
         }
-        return fragments;
+        return findFields(clazz.getSuperclass(), fragments);
+      }
+      return fragments;
     }
 
     private static String loadTemplateFile(final Class<?> fromPackage, final String name)
