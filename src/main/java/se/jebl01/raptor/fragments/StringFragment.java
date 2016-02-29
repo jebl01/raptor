@@ -1,25 +1,22 @@
 package se.jebl01.raptor.fragments;
 
 
-
-public final class StringFragment<S> implements TemplateFragment<S>
-{
+public final class StringFragment<T> implements TemplateFragment<T> {
     private final String value;
 
-    public StringFragment(final String value)
-    {
+    public StringFragment(String value, final boolean eraseEscapeChars) {
+        if(eraseEscapeChars) {
+            value = value.replace("\\}", "}");
+        }
         this.value = value;
     }
 
-    @Override
-    public String getFragment(final S source)
-    {
+    public String getFragment(final T source) {
         return this.value;
     }
 
     @Override
-    public String toString()
-    {
-        return this.value;
+    public String toString() {
+        return getClass().getSimpleName() + " length: " + this.value.length();
     }
 }
