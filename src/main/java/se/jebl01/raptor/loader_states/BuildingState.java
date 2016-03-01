@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 
 public abstract class BuildingState<T> {
-    public static final String START_TOKEN = "${";
-    public static final char STOP_TOKEN = '}';
+    public static final String START_TOKEN = "$«"; //note length must be = 2
+    public static final char STOP_TOKEN = '»';
 
     protected int length = 0;
     protected final char[] text;
